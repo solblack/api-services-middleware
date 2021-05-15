@@ -9,7 +9,7 @@ const config = {
     BITLY_CREATE_SHORT_URL: process.env.BITLY_CREATE_SHORT_URL,
     PIXABAY_API_KEY: process.env.PIXABAY_API_KEY,
     PIXABAY_BASE_URL: process.env.PIXABAY_BASE_URL,
-    CORS_ORIGIN: process.env.CORS_ORIGIN,
+    CORS_ORIGIN: JSON.parse(process.env.CORS_ORIGIN),
 };
 
 for (const key in config) {
