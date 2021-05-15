@@ -5,7 +5,7 @@ API to serve as a middleware to consume different external APIs
 ## Quick start
 
 ```bash
-$ git clone git@github.com:fabriciodigennaro/api-services-middleware.git
+$ git clone git@github.com:solblack/api-services-middleware.git
 $ cd api-services-middleware
 $ npm install
 ```
