@@ -26,9 +26,13 @@ class Server {
     }
 
     start = () => {
-        this._app.listen(config.PORT, () => {
+        return this._app.listen(config.PORT, () => {
             console.log(`${config.APP_NAME} running on port ${config.PORT}`);
-        })
+        });
+    }
+
+    close = () => {
+        this._app.close();
     }
 
     initMiddlewares = () => {

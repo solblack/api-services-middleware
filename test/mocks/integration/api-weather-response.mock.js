@@ -1,4 +1,4 @@
-const responseOk = {
+const apiResponseOk = {
     "coord": {
         "lon": 2.3488,
         "lat": 48.8534
@@ -42,7 +42,7 @@ const responseOk = {
     "cod": 200
 };
 
-const responseIncomplete = {
+const apiResponseIncomplete = {
     // "coord": {
     //     "lon": 2.3488,
     //     "lat": 48.8534
@@ -86,15 +86,15 @@ const responseIncomplete = {
     "cod": 200
 };
 
-const notFoundResponse = {
+const apiNotFoundResponse = {
     "cod": "404",
     "message": "city not found"
 };
 
 module.exports = {
-    responseOk,
-    responseIncomplete,
-    notFoundResponse
+    apiResponseOk,
+    apiResponseIncomplete,
+    apiNotFoundResponse
 }
 
 
