@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**/*spec.js --reporter spec -r dotenv/config",
+    "test": "nyc --reporter=html --reporter=text mocha test/**/*spec.js --reporter spec -r dotenv/config",
     "start": "node index.js",
     "start:dev": "node -r dotenv/config index.js",
     "dev": "nodemon -r dotenv/config index.js"
@@ -26,6 +26,7 @@
     "dotenv": "^8.2.0",
     "mocha": "^8.4.0",
     "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
     "supertest": "^6.1.3"
   }
 }

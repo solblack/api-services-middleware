@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { describe } = require('mocha');
 const { WeatherService } = require("../../src/services");
-const { windDirectionTests, getSpeedTests, buildWeatherResponseTests} = require("../mocks/unit/weather-service.mocks");
+const { windDirectionTests, getSpeedTests, buildWeatherResponseTests} = require("../mocks/unit/weather-service.mock");
 
 describe('Weather service unit tests', () => {
     let weatherService;

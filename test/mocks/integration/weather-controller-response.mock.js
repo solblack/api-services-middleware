@@ -1,4 +1,4 @@
-let responseOk = {
+const responseOk = {
     city: "Paris",
     weather_description: "broken clouds",
     temperature: 12.19,
@@ -10,6 +10,18 @@ let responseOk = {
     }
 };
 
+const responseError = {
+    status: 500,
+    message: "Problem connecting with Weather API"
+}
+
+const responseErrorNotFound = {
+    "cod": "404",
+    "message": "city not found"
+};
+
 module.exports = {
-    responseOk
+    responseOk,
+    responseError,
+    responseErrorNotFound
 }
