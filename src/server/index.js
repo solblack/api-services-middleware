@@ -2,6 +2,8 @@ const express = require('express');
 const routers = require('../routes');
 const config = require('../config');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../swagger/swagger.json');
 
 const { ErrorMiddleware } = require("../middlewares");
 
@@ -39,16 +41,7 @@ class Server {
         console.log("Initializing middlewares...");
         this._app.use(express.urlencoded({ extended: false }));
         this._app.use(express.json());
-        const corsOptions = {
-            origin: function (origin, callback) {
-                if (config.CORS_ORIGIN.includes(origin)) {
-                    callback(null, true)
-                } else {
-                    callback(new Error('Not allowed by CORS'))
-                }
-            }
-        };
-        this._app.use(cors(corsOptions));
+        this._app.use(cors());
 
     }
 
@@ -58,6 +51,16 @@ class Server {
         this._app.use("/news", this._routers.NewsRoutes);
         this._app.use("/weather", this._routers.WeatherRoutes);
         this._app.use("/pixabay", this._routers.PixabayRoutes);
+
+        // Swagger UI
+        const options = {
+            swaggerOptions: {
+                validatorUrl: null
+            },
+            customCss: '.swagger-ui .topbar { background-color: pink; }'
+        };
+        
+        this._app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
     }
 };
 

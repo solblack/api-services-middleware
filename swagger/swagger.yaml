@@ -1,0 +1,299 @@
+openapi: 3.0.1
+info:
+  title: api-services-middleware
+  description: 'API to serve as a middleware to consume different external APIs.'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: fabriciodigennaro9@gmail.com
+  version: 1.0.0
+servers:
+- url: http://localhost:3000
+- url: https://api-services-middleware.herokuapp.com
+tags:
+- name: weather
+  description: api to know the weather status from city
+- name: pixabay
+  description: api to get images
+- name: news
+  description: api to get news ordered by city and categories
+- name: bitly
+  description: api to convert a long URL in a short URL
+paths:
+  /weather:
+    get:
+      tags:
+      - weather
+      summary: Search weather by city
+      description: Returns weather information for a city
+      operationId: getWeatherByCity
+      parameters:
+      - name: city
+        in: query
+        description: city name
+        required: true
+        schema:
+          type: string
+        example: Paris
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherResponse'
+        400:
+          description: Bad request
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not found
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Internal server error
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'        
+  /pixabay:
+    get:
+      tags:
+      - pixabay
+      summary: Search images in pixabay api
+      description: Returns images and info
+      operationId: getImages
+      parameters:
+      - name: q
+        in: query
+        description: search param
+        required: true
+        schema:
+          type: string
+        example: maradona
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PixabayResponse'
+        400:
+          description: Bad request
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not found
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Internal server error
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+  
+  /news:
+    get:
+      tags:
+      - news
+      summary: Search news by country and category
+      description: Returns news
+      operationId: getNews
+      parameters:
+      - name: country
+        in: query
+        description: search param
+        required: true
+        schema:
+          type: string
+        example: ar
+      - name: category
+        in: query
+        description: search param
+        required: false
+        schema:
+          type: string
+        example: sports  
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsResponse'
+        400:
+          description: Bad request
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not found
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Internal server error
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'     
+     
+  
+
+  /bitly:
+    post:
+      tags:
+      - bitly
+      summary: shorten a url
+      description: send a long url y return a short url.
+      operationId: getSortUrl
+      requestBody:
+        description: long url to shorten
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BitlyRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BitlyResponse'
+        400:
+          description: Bad request
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        404:
+          description: Not found
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        500:
+          description: Internal server error
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+      
+components:
+  schemas:
+    WeatherResponse:
+      type: object
+      properties:
+        temperature:
+          type: number
+          example: 17.62
+        humidity:
+          type: number
+          example: 50
+        weather:
+          type: string
+          example: Clear
+        feels_like:
+          type: number
+          example: 17
+        pressure:
+          type: number
+          example: 1017
+        min_temperature:
+          type: number
+          example: 14
+        max_temperature:
+          type: number
+          example: 19
+        wind:
+          type: object
+          properties:
+            speed:
+              type: number
+              example: 11
+            direction:
+              type: string
+              example: SSE
+    PixabayResponse:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 1
+        total_hits:
+          type: number
+          example: 1
+        hits:
+          type: object
+          properties:
+            image_preview:
+              type: string 
+              example: https://cdn.pixabay.com/photo/2016/10/03/19/42/boca-juniors-1712628_150.jpg
+            large_image_url:
+              type: string
+              example: https://pixabay.com/get/g22d45e11ee5a2e07473673d756a970c2f624b2638407dbfe089db724acc5ceb670572d0c8a1b2d81bebb947ccb9d19ae41fa7ac9def36e319b4818841a5c983b_1280.jpg
+            likes:
+              type: number
+              example: 20
+            views:
+              type: number
+              example: 9000
+    NewsResponse:
+      type: object
+      properties:
+        total_results:
+          type: number
+          example: 1
+        articles:
+          type: object
+          properties:
+            image:
+              type: string 
+              example: https://media.minutouno.com/p/d0f2cf0a2ec224332e4c7fc18a1b1f51/adjuntos/150/imagenes/038/923/0038923567/1200x675/smart/coronavirus-hisopados-casos-2jpg.jpg
+            source_name:
+              type: string
+              example: Minutouno.com
+            description:
+              type: string
+              example: El Ministerio de Salud difundió este lunes una actualización de la definición de caso sospechoso de coronavirus.
+            url:
+              type: string
+              example: https://www.minutouno.com/sociedad/coronavirus/suman-nuevo-sintoma-los-casos-sospechosos-n5197029
+    BitlyRequest:
+      type: object
+      properties:
+        long_url:
+          type: string
+          example: https://www.youtube.com/watch?v=VPEqZt2ABfg
+    BitlyResponse:
+      type: object
+      properties:
+        long_url:
+          type: string
+          example: https://www.youtube.com/watch?v=VPEqZt2ABfg 
+        short_url:
+          type: string
+          example: https://bit.ly/ayz3
+      
+    ApiErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 500
+        message:
+          type: string
+          example: Internal server error
+  
