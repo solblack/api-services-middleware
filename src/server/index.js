@@ -61,6 +61,10 @@ class Server {
         };
         
         this._app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+        this._app.get("/swagger.json", function (req, res) {
+            res.setHeader("Content-Type", "application/json");
+            res.send(swaggerDocument);
+        })
     }
 };
 
